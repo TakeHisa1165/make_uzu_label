@@ -1,0 +1,42 @@
+import xlwings as xw
+
+class InputExcel:
+    def __init__(self, wb, ws, start_no, no_of_labels, part_no):
+        self.label_book = wb
+        self.label_sheet = ws
+        self.start_no = int(start_no)
+        self.no_of_labels = int(no_of_labels)
+        self.part_no = part_no
+        self.input_data()
+
+    def input_data(self):
+        sheet = self.label_book.sheets('コピー元')
+        for i in range(1, 92):
+            sheet.range(i,1).value = 0
+        for i in range(self.start_no, self.start_no + self.no_of_labels):
+            sheet.range(i, 1).value = self.part_no
+
+
+
+        # イコールで結ばない方法　模索中
+        # if self.start_no % 4 != 0:
+        #     start_no_row = (self.start_no // 4) + 1
+        #     cal_row = (start_no_row - 1)
+        #     start_no_row = start_no_row + cal_row
+        #     start_no_col = (self.start_no % 4)
+        #     if start_no_col == 2:
+        #         start_no_col = start_no_col + 1
+
+        #     elif start_no_col == 3:
+        #         start_no_col = start_no_col + 2
+        #     else:
+        #         pass
+        # elif self.start_no % 4 == 0:
+        #     start_no_row = (self.start_no // 4)
+        #     cal_row = (start_no_row - 1)
+        #     start_no_row = start_no_row + cal_row
+        #     start_no_col = (self.start_no % 4)
+        #     start_no_col = 7
+
+        # self.label_sheet.range(start_no_row, start_no_col).value = self.part_no
+
