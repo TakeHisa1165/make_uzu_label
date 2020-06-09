@@ -39,7 +39,7 @@ class InputWindow:
 
 
     def input_window(self):
-        sg.theme = "systemdefault"
+        sg.theme("systemdefault")
 
         frame1 = [
             [sg.Text(text=('納入先を選んでください'),font=('メイリオ', 14)),],
@@ -98,9 +98,13 @@ class InputWindow:
                 part_no = values["-part_no-"]
                 start_no = values["-start_no-"]
                 no_of_labels = values["-no_of_labels"]
-                input_to_excel.InputExcel(wb=self.label_book, ws=self.label_sheet,
-                                        start_no=start_no, no_of_labels=no_of_labels,
-                                        part_no=part_no)
+                try:
+                    input_to_excel.InputExcel(wb=self.label_book, ws=self.label_sheet,
+                                                start_no=start_no, no_of_labels=no_of_labels,
+                                                part_no=part_no)
+
+                except ValueError:
+                    sg.popup_error("納入先、品番が選択されているか確認してください")
 
             if values["menu1"] == "フォルダ設定":
                 SelectFile()
@@ -114,7 +118,7 @@ class SelectFile:
 
     def select_file(self):
 
-        sg.theme = "systemdefault"
+        sg.theme("systemdefault")
 
         layout = [
             [sg.Text("ラベル作成ファイルを選んでください", size=(50, 1), font=('メイリオ', 14))], 
