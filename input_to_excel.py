@@ -1,4 +1,6 @@
 import xlwings as xw
+import PySimpleGUI as sg
+import win32com.client
 
 class InputExcel:
     def __init__(self, wb, ws, start_no, no_of_labels, part_no):
@@ -11,10 +13,11 @@ class InputExcel:
 
     def input_data(self):
         sheet = self.label_book.sheets('コピー元')
-        for i in range(1, 92):
+        for i in range(1, 93):
             sheet.range(i,1).value = 0
         for i in range(self.start_no, self.start_no + self.no_of_labels):
             sheet.range(i, 1).value = self.part_no
+
 
 
 
@@ -39,4 +42,18 @@ class InputExcel:
         #     start_no_col = 7
 
         # self.label_sheet.range(start_no_row, start_no_col).value = self.part_no
+
+class PrintOut:
+    def __init__(self, path):
+        self.xlapp = win32com.client.Dispatch("Excel.Application")
+        self.path = path
+        self.print_out()
+    def print_out(self):
+        wb = self.xlapp.Workbooks.Open(self.path)
+        ws = wb.Worksheets[0]
+        ws.printout
+
+
+
+
 

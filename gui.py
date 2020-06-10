@@ -4,6 +4,7 @@ import input_to_excel
 import os
 import csv
 import w_csv
+import sys
 
 class InputWindow:
     def __init__(self):
@@ -63,7 +64,7 @@ class InputWindow:
             [sg.Frame("品番選択", frame1,)],
             [sg.Frame('選択結果表示', frame2)],
             [sg.Frame("ラベル枚数設定", frame3)],
-            [sg.Submit(button_text=("ラベル作成"))],
+            [sg.Submit(button_text=("ラベル作成"), font=("メイリオ", 14),pad=((5, 200),(0,0))), sg.Submit(button_text=('印刷'), font=("メイリオ", 14))],
             ]
 
 
@@ -106,6 +107,9 @@ class InputWindow:
                 except ValueError:
                     sg.popup_error("納入先、品番が選択されているか確認してください")
 
+            if event == "印刷":
+                input_to_excel.PrintOut(self.label_file_path)
+
             if values["menu1"] == "フォルダ設定":
                 SelectFile()
 
@@ -143,6 +147,9 @@ class SelectFile:
                 path_dict["dir_path"] = dir_path
                 csv = w_csv.Write_csv()
                 csv.write_csv(path_dict=path_dict)
+                sg.popup('初期設定が完了しましたアプリを再起動してください\nアプリを終了します')
+                sys.exit()
+
 
                 return path_dict
             if event == '閉じる':
