@@ -5,6 +5,8 @@ import os
 import csv
 import w_csv
 import sys
+import win32com.client
+
 
 class InputWindow:
     def __init__(self):
@@ -17,10 +19,14 @@ class InputWindow:
                     self.dir_path = row["dir_path"]
 
         except FileNotFoundError:
-            sg.popup_ok('初期設定が必要です。\n設定画面から書き出しフォルダを設定してください')
+            sg.popup_ok('初期設定が必要です。\n設定画面から書き出しフォルダを設定してください。')
             SelectFile()
 
-        self.label_file_path = self.dir_path
+        try:
+            self.label_file_path = self.dir_path
+        except AttributeError:
+            sg.popup_error('Excelファイルを開けません\n初期設定をやり直してください。')
+            SelectFile()
         self.label_book = xw.Book(self.label_file_path)
         self.label_sheet = self.label_book.sheets("ラベル印刷")
         self.part_no_sheet = self.label_book.sheets('品番リスト')
@@ -64,7 +70,7 @@ class InputWindow:
             [sg.Frame("品番選択", frame1,)],
             [sg.Frame('選択結果表示', frame2)],
             [sg.Frame("ラベル枚数設定", frame3)],
-            [sg.Submit(button_text=("ラベル作成"), font=("メイリオ", 14),pad=((5, 200),(0,0))), sg.Submit(button_text=('印刷'), font=("メイリオ", 14))],
+            [sg.Submit(button_text=("ラベル作成"), font=("メイリオ", 14),pad=((5, 200),(0,0))), sg.Submit(button_text="終了する", font=("メイリオ", 14))],
             ]
 
 
@@ -107,8 +113,10 @@ class InputWindow:
                 except ValueError:
                     sg.popup_error("納入先、品番が選択されているか確認してください")
 
-            if event == "印刷":
-                input_to_excel.PrintOut(self.label_file_path)
+            if event == "終了する":
+                sys.exit()
+            # if event == "印刷":
+            #     input_to_excel.PrintOut(self.label_file_path)
 
             if values["menu1"] == "フォルダ設定":
                 SelectFile()
@@ -152,8 +160,8 @@ class SelectFile:
 
 
                 return path_dict
-            if event == '閉じる':
-                break
+            if event == '終了する':
+                sys.exit()
 
 
 

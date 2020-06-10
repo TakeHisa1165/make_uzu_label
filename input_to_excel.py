@@ -21,6 +21,8 @@ class InputExcel:
 
 
 
+
+
         # イコールで結ばない方法　模索中
         # if self.start_no % 4 != 0:
         #     start_no_row = (self.start_no // 4) + 1
@@ -43,15 +45,16 @@ class InputExcel:
 
         # self.label_sheet.range(start_no_row, start_no_col).value = self.part_no
 
-class PrintOut:
-    def __init__(self, path):
-        self.xlapp = win32com.client.Dispatch("Excel.Application")
-        self.path = path
-        self.print_out()
-    def print_out(self):
-        wb = self.xlapp.Workbooks.Open(self.path)
-        ws = wb.Worksheets[0]
-        ws.printout
+# class PrintOut:
+#     def __init__(self, path):
+#         self.xlapp = win32com.client.Dispatch("Excel.Application")
+#         self.path = path
+#         self.print_out()
+#         PRINTER_NAME = "CubePDF"
+#     def print_out(self):
+#         wb = self.xlapp.Workbooks.Open(self.path)
+#         ws = wb.Worksheets[0]
+#         ws.printout
 
 
 
