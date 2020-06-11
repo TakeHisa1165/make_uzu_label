@@ -108,7 +108,7 @@ class InputWindow:
                 try:
                     input_to_excel.InputExcel(wb=self.label_book, ws=self.label_sheet,
                                                 start_no=start_no, no_of_labels=no_of_labels,
-                                                part_no=part_no)
+                                                part_no=part_no, path=self.label_file_path)
 
                 except ValueError:
                     sg.popup_error("納入先、品番が選択されているか確認してください")
