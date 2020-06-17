@@ -14,10 +14,12 @@ class InputExcel:
 
 
     def input_data(self):
-        self.xlapp = win32com.client.Dispatch("Excel.Application")
-        wb = self.xlapp.Workbooks.Open(self.path)
-        ws = wb.Worksheets('ラベル印刷')
-        ws.Unprotect()
+        # Excelのバージョン違いによるエラー発生のため
+        # シート保護はコメントアウト
+        # self.xlapp = win32com.client.Dispatch("Excel.Application")
+        # wb = self.xlapp.Workbooks.Open(self.path)
+        # ws = wb.Worksheets('ラベル印刷')
+        # ws.Unprotect()
 
         sheet = self.label_book.sheets('コピー元')
         for i in range(1, 93):
@@ -25,7 +27,7 @@ class InputExcel:
         for i in range(self.start_no, self.start_no + self.no_of_labels):
             sheet.range(i, 1).value = self.part_no
 
-        ws.Protect()
+        # ws.Protect()
         sg.popup('ラベル記入が完了しました。\n印刷してください。')
 
 
